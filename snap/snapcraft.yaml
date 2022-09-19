@@ -36,13 +36,15 @@ parts:
       snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
 
     build-packages:
-      - python
+      - python3
       - python-gobject
-    
+      - python3-gi
+      
     stage-packages:
-      - python
+      - python3
       - python-gobject
-
+      - python3-gi
+      
   homeishome-launch:
     plugin: nil
     stage-snaps:
