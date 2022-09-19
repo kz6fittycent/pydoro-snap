@@ -42,12 +42,14 @@ parts:
       - python3-gi
       - python3-pip
       - python3-pygame
+      - python3-gst-1.0      
       
     stage-packages:
       - python3
       - python3-gi
       - python3-pygame
-            
+      - python3-gst-1.0
+                  
   homeishome-launch:
     plugin: nil
     stage-snaps:
