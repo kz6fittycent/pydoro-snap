@@ -49,7 +49,8 @@ parts:
       - python3-gi
       - python3-pygame
       - python3-gst-1.0
-                  
+      - gstreamer1.0-gtk3 # this seems crazy to me
+                        
   homeishome-launch:
     plugin: nil
     stage-snaps:
