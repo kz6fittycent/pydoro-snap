@@ -23,6 +23,8 @@ apps:
       LC_ALL: C.UTF-8
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
       GI_TYPELIB_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/girepository-1.0
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
+      
     plugs:
       - home
       - audio-playback
@@ -49,7 +51,7 @@ parts:
       - python3-gi
       - python3-pygame
       - python3-gst-1.0
-      - gstreamer1.0-libav
+      - libpulse0
                         
   homeishome-launch:
     plugin: nil
