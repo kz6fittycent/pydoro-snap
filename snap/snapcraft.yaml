@@ -37,12 +37,11 @@ parts:
 
     build-packages:
       - python3
-      - python-gobject
       - python3-gi
+      - pip3
       
     stage-packages:
       - python3
-      - python-gobject
       - python3-gi
       
   homeishome-launch:
