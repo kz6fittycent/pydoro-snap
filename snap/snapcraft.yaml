@@ -15,10 +15,12 @@ assumes:
   - command-chain
 
 layout:
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
-    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
   /usr/share/alsa:
     bind: $SNAP/usr/share/alsa
+  /etc/alsa:
+    bind: $SNAP/etc/alsa
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
   
 apps:
   pydoro:
@@ -36,7 +38,6 @@ apps:
       - audio-playback
       - alsa
       - pulseaudio
-      - process-control
       
 parts:
   pydoro:
@@ -60,6 +61,7 @@ parts:
       - python3-pygame
       - python3-gst-1.0
       - libpulse0
+      - libasound2-plugins
                         
   homeishome-launch:
     plugin: nil
