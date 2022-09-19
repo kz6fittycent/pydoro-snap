@@ -28,6 +28,8 @@ apps:
     plugs:
       - home
       - audio-playback
+      - alsa
+      - pulseaudio
       
 parts:
   pydoro:
