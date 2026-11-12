@@ -33,7 +33,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # snapcraft 7.x can't launch containers on LXD 6.x ("Not Found"), use the LTS 5.0 track
       - uses: canonical/setup-lxd@v1
+        with:
+          channel: 5.0/stable
 
       - name: Build snap
         id: build
