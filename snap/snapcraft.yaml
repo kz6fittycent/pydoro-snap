@@ -46,6 +46,11 @@ parts:
       - gstreamer1.0-plugins-good
       - gstreamer1.0-pulseaudio
       - libpulse0
+    override-build: |
+      # setup.py finds its own dir with getsource(lambda: 0), which fails under
+      # modern pip (setup.py isn't run from a file); use __file__ instead.
+      sed -i 's|here = abspath(dirname(getsource(lambda: 0)))|here = abspath(dirname(__file__))|' setup.py
+      craftctl default
     override-pull: |
       craftctl default
       craftctl set version="$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
