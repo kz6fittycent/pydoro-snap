@@ -33,19 +33,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # snapcraft 7.x can't launch containers on LXD 6.x ("Not Found"), use the LTS 5.0 track
       - uses: canonical/setup-lxd@v1
-        with:
-          channel: 5.0/stable
 
       - name: Build snap
         id: build
         env:
           SNAPCRAFT_BUILD_INFO: 1
         run: |
-          # core18/core20 need snapcraft 7.x, which builds with plain `snapcraft`
-          sudo snap install snapcraft --classic --channel=7.x/stable
-          snapcraft --use-lxd
+          sudo snap install snapcraft --classic
+          snapcraft pack
           echo "snap=$(ls *.snap)" >> "$GITHUB_OUTPUT"
 
       - uses: actions/upload-artifact@v7

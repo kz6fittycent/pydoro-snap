@@ -6,64 +6,51 @@ description: |
 
 license: MIT
 
-base: core20
+base: core24
 grade: stable
 confinement: strict
 compression: lzo
 
-assumes:
-  - command-chain
+platforms:
+  amd64:
+  arm64:
 
-layout:
-  /usr/share/alsa:
-    bind: $SNAP/usr/share/alsa
-  /etc/alsa:
-    bind: $SNAP/etc/alsa
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
-    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
-  
 apps:
   pydoro:
     command: bin/pydoro
-    command-chain: 
-      - bin/homeishome-launch      
+    command-chain:
+      - bin/homeishome-launch
     environment:
       LC_ALL: C.UTF-8
+      # pydoro plays its alarm with GStreamer through PyGObject (gi), staged from noble
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
-      GI_TYPELIB_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/girepository-1.0
-      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
-      
+      GI_TYPELIB_PATH: $SNAP/usr/lib/${CRAFT_ARCH_TRIPLET_BUILD_FOR}/girepository-1.0
+      GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/${CRAFT_ARCH_TRIPLET_BUILD_FOR}/gstreamer-1.0
+      GST_PLUGIN_SCANNER: $SNAP/usr/lib/${CRAFT_ARCH_TRIPLET_BUILD_FOR}/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner
+      LD_LIBRARY_PATH: $SNAP/usr/lib/${CRAFT_ARCH_TRIPLET_BUILD_FOR}:$SNAP/usr/lib/${CRAFT_ARCH_TRIPLET_BUILD_FOR}/pulseaudio
     plugs:
       - home
       - audio-playback
       - alsa
       - pulseaudio
-      
+
 parts:
   pydoro:
     source: https://github.com/JaDogg/pydoro
     source-type: git
     plugin: python
-    
-    override-pull: |
-      snapcraftctl pull
-      snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
-
-    build-packages:
-      - python3
-      - python3-gi
-      - python3-pip
-      - python3-pygame    
-      
     stage-packages:
-      - python3
       - python3-gi
-      - python3-pygame
-      - python3-gst-1.0
+      - gir1.2-gstreamer-1.0
+      - gstreamer1.0-plugins-base
+      - gstreamer1.0-plugins-good
+      - gstreamer1.0-pulseaudio
       - libpulse0
-      - libasound2-plugins
-                        
+    override-pull: |
+      craftctl default
+      craftctl set version="$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
+
   homeishome-launch:
     plugin: nil
     stage-snaps:
-      - homeishome-launch  
+      - homeishome-launch
